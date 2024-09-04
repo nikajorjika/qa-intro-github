@@ -1,7 +1,7 @@
 {
   "name": "qa-intro-github",
   "version": "1.0.0",
-  "description": "Description is not needed here",
+  "description": "Description of a project for QA Team",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
