@@ -1,0 +1,48 @@
+name: Slack Notification
+
+on: push
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Notification
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*GitHub Action Notification*"
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Repository:*\n`${{ github.repository }}\n"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n`${{ github.ref }}\n"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Committer:*\n`${{ github.actor }}\n"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Commit Message:*\n`${{ github.event.head_commit.message }}\n"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Commit URL:*\n<${{ github.event.head_commit.url }}|View Commit>"
+                  }
+                ]
+              }
+            ]
+          }' $SLACK_WEBHOOK_URL
